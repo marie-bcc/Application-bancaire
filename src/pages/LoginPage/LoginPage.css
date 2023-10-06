@@ -1,0 +1,6 @@
+.LoginPage{
+    display: flex;
+    justify-content: center;
+    height: 83vh;
+    background-color:#0b002b ;
+}
