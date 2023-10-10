@@ -44,7 +44,7 @@ const AccountContent = () => {
             </>
           ) : (
             <>
-              {username || 'User'} 
+              {username || ''} 
               <button className="edit-button" onClick={handleEditName}>
                 Edit Name
               </button>
