@@ -1,7 +1,14 @@
-import { logInstart, logInSucess, logInFailure, logOut } from "./authSlice";
+import {
+  logInStart,
+  logInSuccess,
+  logInFailure,
+  logOut,
+  userLoginSucess,
+} from "./authSlice";
 
 export const loginAsync = (email, password) => async (dispatch) => {
-  dispatch(logInstart());
+  dispatch(logInStart());
+
   try {
     const response = await fetch("http://localhost:3001/api/v1/user/login", {
       method: "POST",
@@ -16,7 +23,6 @@ export const loginAsync = (email, password) => async (dispatch) => {
     }
 
     const data = await response.json();
-
     localStorage.setItem("token", data.body.token);
 
     const profileResponse = await fetch(
@@ -35,12 +41,9 @@ export const loginAsync = (email, password) => async (dispatch) => {
     }
 
     const profileData = await profileResponse.json();
+    dispatch(logInSuccess(data.body));
+    dispatch(userLoginSucess(profileData.body));
 
-    const payload = {
-      token: data.body.token,
-    };
-
-    dispatch(logInSucess(payload));
     return Promise.resolve(profileData);
   } catch (error) {
     dispatch(logInFailure(error.message));
@@ -51,9 +54,41 @@ export const loginAsync = (email, password) => async (dispatch) => {
 export const logoutAsync = () => async (dispatch) => {
   try {
     localStorage.removeItem("token");
-
     dispatch(logOut());
   } catch (error) {
     console.error("Failed to log out:", error);
   }
 };
+
+export const updateUsernameAsync =
+  (newUsername) => async (dispatch, getState) => {
+    try {
+      const token = getState().auth.token;
+      console.log("Updating username to: ", newUsername);
+
+      const response = await fetch(
+        "http://localhost:3001/api/v1/user/profile",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ username: newUsername }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update username");
+      }
+
+      const data = await response.json();
+
+      console.log("Update response data:", data);
+      console.log('Data received from server:', data);
+
+      dispatch(userLoginSucess(data.body));
+    } catch (error) {
+      console.error("Failed to update username:", error);
+    }
+  };

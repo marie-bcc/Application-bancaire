@@ -7,6 +7,7 @@ import { logoutAsync } from "../../Features/auth/authActions";
 import { selectToken } from "../../Features/auth/authSlice";
 import "./Navbar.css";
 import logo from "../../img/argentBankLogo.png";
+import { selectUserName } from "../../Features/auth/authSlice";
 
 function NavBar() {
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ function NavBar() {
   const handleLogoutClick = () => {
     dispatch(logoutAsync());
   };
+
+  const username = useSelector(selectUserName);
 
   return (
     <nav className="main-nav">
@@ -27,7 +30,7 @@ function NavBar() {
           <Link className="main-nav-item" to="/" onClick={handleLogoutClick}>
             
             <FontAwesomeIcon className="main-nav-item" icon={faUserCircle} />
-            {/* <p>Tony </p> */}
+            <p>{username}</p>
             Sign Out
           </Link>
         ) : (

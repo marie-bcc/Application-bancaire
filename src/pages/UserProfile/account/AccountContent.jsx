@@ -1,19 +1,59 @@
-import React from "react";
-import Account from "./Account";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUsernameAsync } from '../../../Features/auth/authActions'; 
+import Account from './Account';
+import { selectUserName } from '../../../Features/auth/authSlice'; 
 
 const AccountContent = () => {
+  const dispatch = useDispatch();
+  const username = useSelector(selectUserName); 
+  console.log(username);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newUsername, setNewUsername] = useState(username || "");
+
+  const handleEditName = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveName = async () => {
+    dispatch(updateUsernameAsync(newUsername));
+    setIsEditing(false);
+    console.log(newUsername)
+  };
+
+  const handleChangeName = (event) => {
+    setNewUsername(event.target.value);
+  };
+
   return (
     <main className="main bg-dark">
       <div className="header">
         <h1>
           Welcome back
           <br />
-          Tony Jarvis!
+          {isEditing ? (
+            <>
+              <input 
+                type="text"
+                value={newUsername}
+                onChange={handleChangeName}
+              />
+              <button className="edit-button" onClick={handleSaveName}>
+                Save Name
+              </button>
+            </>
+          ) : (
+            <>
+              {username || 'User'} 
+              <button className="edit-button" onClick={handleEditName}>
+                Edit Name
+              </button>
+            </>
+          )}
         </h1>
-        <button className="edit-button">Edit Name</button>
+        
       </div>
       <h2 className="sr-only">Accounts</h2>
-
       <Account
         title="Argent Bank Checking (x8349)"
         amount="$2,082.79"
