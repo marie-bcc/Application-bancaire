@@ -74,7 +74,7 @@ export const updateUsernameAsync =
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ username: newUsername }),
+          body: JSON.stringify({ userName: newUsername }),
         }
       );
 
