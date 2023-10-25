@@ -38,6 +38,7 @@ const AccountContent = () => {
                 value={newUsername}
                 onChange={handleChangeName}
               />
+              <br/>
               <button className="edit-button" onClick={handleSaveName}>
                 Save Name
               </button>
@@ -45,6 +46,7 @@ const AccountContent = () => {
           ) : (
             <>
               {username || ''} 
+              <br/>
               <button className="edit-button" onClick={handleEditName}>
                 Edit Name
               </button>
