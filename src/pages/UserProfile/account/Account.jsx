@@ -1,4 +1,5 @@
-import "../account/account.css"
+import React from "react";
+import "../account/account.css";
 
 const Account = ({ title, amount, description }) => {
   return (
