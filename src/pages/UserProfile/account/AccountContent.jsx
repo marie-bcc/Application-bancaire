@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateUsernameAsync } from '../../../Features/auth/authActions'; 
-import Account from './Account';
-import { selectUserName } from '../../../Features/auth/authSlice'; 
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUsernameAsync } from "../../../Features/auth/authActions";
+import Account from "./Account";
+import { selectUserName } from "../../../Features/auth/authSlice";
 
 const AccountContent = () => {
   const dispatch = useDispatch();
-  const username = useSelector(selectUserName); 
+  const username = useSelector(selectUserName);
   console.log(username);
   const [isEditing, setIsEditing] = useState(false);
-  const [newUsername, setNewUsername] = useState(username || "");
+  const [newUsername, setNewUsername] = useState(username);
+
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("username") || username;
+    setNewUsername(savedUsername);
+  }, [username]);
 
   const handleEditName = () => {
     setIsEditing(true);
@@ -18,7 +23,12 @@ const AccountContent = () => {
   const handleSaveName = async () => {
     dispatch(updateUsernameAsync(newUsername));
     setIsEditing(false);
-    console.log(newUsername)
+    console.log(newUsername);
+  };
+
+  const handleCancelEdit = () => {
+    setNewUsername(username);
+    setIsEditing(false);
   };
 
   const handleChangeName = (event) => {
@@ -33,27 +43,30 @@ const AccountContent = () => {
           <br />
           {isEditing ? (
             <>
-              <input 
+              <input
                 type="text"
                 value={newUsername}
                 onChange={handleChangeName}
               />
-              <br/>
+              <br />
               <button className="edit-button" onClick={handleSaveName}>
                 Save Name
+              </button>
+              <button className="edit-button" onClick={handleCancelEdit}>
+                {""}
+                Cancel {""}
               </button>
             </>
           ) : (
             <>
-              {username || ''} 
-              <br/>
+              {newUsername}
+              <br />
               <button className="edit-button" onClick={handleEditName}>
                 Edit Name
               </button>
             </>
           )}
         </h1>
-        
       </div>
       <h2 className="sr-only">Accounts</h2>
       <Account
