@@ -21,6 +21,7 @@ const AccountContent = () => {
   };
 
   const handleSaveName = async () => {
+    // @ts-ignore
     dispatch(updateUsernameAsync(newUsername));
     setIsEditing(false);
     console.log(newUsername);
@@ -43,11 +44,7 @@ const AccountContent = () => {
           <br />
           {isEditing ? (
             <>
-              <input
-                type="text"
-                value={newUsername}
-                onChange={handleChangeName}
-              />
+              <input type="text" onChange={handleChangeName} />
               <br />
               <button className="edit-button" onClick={handleSaveName}>
                 Save Name
@@ -59,7 +56,7 @@ const AccountContent = () => {
             </>
           ) : (
             <>
-              {newUsername}
+              {username}
               <br />
               <button className="edit-button" onClick={handleEditName}>
                 Edit Name

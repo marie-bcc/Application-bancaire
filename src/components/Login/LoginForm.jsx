@@ -11,6 +11,7 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  // @ts-ignore
   const error = useSelector((state) => state.auth.error);
   const token = useSelector(selectToken);
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function LoginForm() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(loginAsync(email, password))
       .then((profileData) => {
         console.log("Profile data after login:", profileData);

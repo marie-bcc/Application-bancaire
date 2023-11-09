@@ -85,10 +85,8 @@ export const updateUsernameAsync =
       const data = await response.json();
       console.log("Update response data:", data);
 
-      // Stocker le nouveau nom d'utilisateur dans le localStorage
       localStorage.setItem("username", newUsername);
 
-      // Dispatch l'action de succès de login avec les données mises à jour
       dispatch(userLoginSucess({ userName: newUsername }));
     } catch (error) {
       console.error("Failed to update username:", error);

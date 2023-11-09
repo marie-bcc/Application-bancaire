@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutAsync } from "../../Features/auth/authActions";
 import { selectToken, selectUserName } from "../../Features/auth/authSlice";
 import "./Navbar.css";
-import logo from "../../img/argentBankLogo.png";
+import logo from "../../img/argentBankLogo.webp";
 
 function NavBar() {
   const dispatch = useDispatch();
@@ -15,6 +15,7 @@ function NavBar() {
 
   const handleLogoutClick = (e) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(logoutAsync());
   };
 
